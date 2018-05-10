@@ -115,24 +115,11 @@ public class MainActivity extends AppCompatActivity implements
                 @Override
                 public void onNmeaReceived(long timestamp, String s) {
                     if(etNmea != null && gettingNMEA) {
-                       /* if (!s.contains("GPGGA") &&
-                                !s.contains("GPGSA") &&
-                                !s.contains("GPGSV") &&
-                                !s.contains("GPRMC") &&
-                                !s.contains("GPVTG") &&
-                                !s.contains("GLGSV") &&
-                                !s.contains("PGLOR") &&
-                                !s.contains("BDGSA") &&
-                                !s.contains("BDGSV") &&
-                                !s.contains("IMGSA") &&
-                                !s.contains("QZGSA") &&
-                                !s.contains("GNGSA")
-
-                                ) {*/
+                       /* GPGGA,GPGSA,GPGSV,GPRMC,GPVTG,GLGSV,PGLOR,BDGSA,BDGSV,IMGSA,QZGSA,GNGSA */
                             history = s + "\n" + history;
                             etNmea.setText(history);
                             processToHistory(s);
-                        //}
+
                     }
                 }
             });
