@@ -17,6 +17,8 @@ import android.widget.Button;
 public class DumpFragment extends Fragment{
     private OnFragmentInteractionListener mListener;
     private Button startStop;
+    private Button btnClean;
+    private Button btnSave;
 
     public DumpFragment() {
         // Required empty public constructor
@@ -43,6 +45,8 @@ public class DumpFragment extends Fragment{
         ((MainActivity) getActivity()).etNmea.setMovementMethod(new ScrollingMovementMethod());
 
         startStop = (Button) v.findViewById(R.id.start_stop_bt);
+        btnClean = (Button) v.findViewById(R.id.btn_clean);
+        btnSave = (Button) v.findViewById(R.id.btn_gravar);
 
         startStop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
