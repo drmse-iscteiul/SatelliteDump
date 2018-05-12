@@ -59,6 +59,14 @@ public class DumpFragment extends Fragment{
             }
         });
 
+        btnClean.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).history = "";
+                ((MainActivity) getActivity()).etNmea.setText("");
+            }
+        });
+
 
         return v;
     }

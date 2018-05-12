@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements
     private Fragment fragHelp = new HelpFragment();
     private Fragment fragList = new ListFragment();
     private  FragmentManager fragmentManager = getSupportFragmentManager();
-    private  String history = "";
+    protected String history = "";
     public  TextView etLat, etLgt, etNmea;
     private static final String TAG = "TESTING_LOG";
     public boolean gettingNMEA = true;
