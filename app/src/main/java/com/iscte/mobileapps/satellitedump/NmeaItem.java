@@ -4,6 +4,7 @@ public class NmeaItem {
     private long id;
     private String name ="";
     private String telephone = "";
+    private String message="";
 
     public long getId() {
         return id;
@@ -23,5 +24,13 @@ public class NmeaItem {
     }
     public void setTelephone(int telephone) {
         this.telephone = String.valueOf(telephone);
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

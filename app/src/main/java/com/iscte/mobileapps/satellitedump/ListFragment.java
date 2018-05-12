@@ -2,6 +2,8 @@ package com.iscte.mobileapps.satellitedump;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Message;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,6 +27,7 @@ public class ListFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
+    private static ArrayList<NmeaItem> nmeaArrayList;
 
     private OnListFragmentInteractionListener mListener = (OnListFragmentInteractionListener) this.getActivity();
 
@@ -52,19 +55,19 @@ public class ListFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+
+        msg();
+
+
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item, container, false);
-
 
         NmeaListAdapter myAdapter = new NmeaListAdapter(this.getContext(), ((MainActivity)this.getActivity()).nmeaItems);
         ((MainActivity)this.getActivity()).adapter = myAdapter;
         ((ListView)view.findViewById(R.id.listView)).setAdapter(myAdapter);
-
-
 
         return view;
     }
@@ -100,5 +103,11 @@ public class ListFragment extends Fragment {
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(NmeaItem item);
+    }
+    public void msg(){
+
+      //  nmeaArrayList=((MainActivity) getActivity()).getNmeaItems();
+
+
     }
 }

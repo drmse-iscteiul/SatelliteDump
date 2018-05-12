@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 public class NmeaListAdapter extends BaseAdapter {
     private static ArrayList<NmeaItem> nmeaArrayList;
+    private static ArrayList<NmeaItem> newNmeaArrayList;
 
     private LayoutInflater mInflater;
 
@@ -54,6 +55,7 @@ public class NmeaListAdapter extends BaseAdapter {
 
         return convertView;
     }
+
 
     static class ViewHolder
     {

@@ -148,9 +148,14 @@ public class MainActivity extends AppCompatActivity implements
             NmeaItem item = new NmeaItem();
             item.setName(newMessage.substring(0,6));
             item.setTelephone(1000);
+            item.setMessage(newMessage);
             nmeaItems.add(item);
             adapter.notifyDataSetChanged();
         }
+    }
+
+    public ArrayList<NmeaItem> getNmeaItems() {
+        return nmeaItems;
     }
 
     protected void showDump(){
