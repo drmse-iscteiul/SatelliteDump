@@ -21,7 +21,6 @@ public class NmeaListAdapter extends BaseAdapter {
         nmeaArrayList = message;
         mInflater = LayoutInflater.from(context);
 
-        newArray();
     }
 
 
@@ -67,16 +66,5 @@ public class NmeaListAdapter extends BaseAdapter {
         TextView txtTelephone;
     }
 
-    public void newArray(){
-
-
-
-
-        HashSet<NmeaItem> hashSet = new HashSet<NmeaItem>();
-        hashSet.addAll(nmeaArrayList);
-        nmeaArrayList.clear();
-        nmeaArrayList.addAll(hashSet);
-
-    }
 
 }

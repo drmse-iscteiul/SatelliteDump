@@ -144,12 +144,22 @@ public class MainActivity extends AppCompatActivity implements
 
         if(!exists && adapter != null){
 
+            for(int i = 0 ; i < nmeaHistory.size(); i++){
+                if(nmeaHistory.get(i).substring(0,6).equals(newMessage.substring(0,6))) {
+                    nmeaHistory.remove(i);
+                }
+            }
+
             nmeaHistory.add(newMessage);
+
             NmeaItem item = new NmeaItem();
-            item.setName(newMessage.substring(0,6));
+
+            String MessageName= nmeaHistory.get(nmeaHistory.size()-1).substring(0,6);
+            item.setName(MessageName);
             item.setTelephone(1000);
-            item.setMessage(newMessage);
+         //   item.setMessage(newMessage);
             nmeaItems.add(item);
+
             adapter.notifyDataSetChanged();
         }
     }
