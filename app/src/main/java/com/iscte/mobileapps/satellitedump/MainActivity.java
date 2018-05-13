@@ -134,33 +134,40 @@ public class MainActivity extends AppCompatActivity implements
 
 
     protected  void processToHistory(String newMessage){
-        boolean exists = false;
-        for(int i = 0 ; i < nmeaHistory.size(); i++){
-            if(nmeaHistory.get(i).equals(newMessage))
-                exists = true;
-        }
 
         Log.d(TAG,newMessage);
 
-        if(!exists && adapter != null){
+        if(adapter != null){
+
+            int rem = -1;
 
             for(int i = 0 ; i < nmeaHistory.size(); i++){
                 if(nmeaHistory.get(i).substring(0,6).equals(newMessage.substring(0,6))) {
-                    nmeaHistory.remove(i);
+                    rem = i;
+                    break;
                 }
             }
+            if(rem == -1) { // mean it is the first from its type
 
-            nmeaHistory.add(newMessage);
+                nmeaHistory.add(newMessage);
+                String messageName= nmeaHistory.get(nmeaHistory.size()-1).substring(0,6);
 
-            NmeaItem item = new NmeaItem();
+                NmeaItem item = new NmeaItem();
+                item.setName(messageName);
+                DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                Date date = new Date(System.currentTimeMillis());
+                String formatted = format.format(date);
+                item.setTelephone(formatted);
+                nmeaItems.add(item);
+                adapter.notifyDataSetChanged();
 
-            String MessageName= nmeaHistory.get(nmeaHistory.size()-1).substring(0,6);
-            item.setName(MessageName);
-            item.setTelephone(1000);
-         //   item.setMessage(newMessage);
-            nmeaItems.add(item);
+            }else{ // not the first
 
-            adapter.notifyDataSetChanged();
+                nmeaHistory.remove(rem);
+                nmeaHistory.add(newMessage);
+
+            }
+
         }
     }
 
