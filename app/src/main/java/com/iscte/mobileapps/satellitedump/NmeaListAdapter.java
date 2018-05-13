@@ -52,7 +52,6 @@ public class NmeaListAdapter extends BaseAdapter {
 
         holder.txtname.setText(nmeaArrayList.get(position).getName());
         holder.txtTelephone.setText(nmeaArrayList.get(position).getTelephone());
-
         return convertView;
     }
 

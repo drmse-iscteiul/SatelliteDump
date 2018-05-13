@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class ListFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private static ArrayList<NmeaItem> nmeaArrayList;
+    public View view;
 
     private OnListFragmentInteractionListener mListener = (OnListFragmentInteractionListener) this.getActivity();
 
@@ -56,14 +58,13 @@ public class ListFragment extends Fragment {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
 
-        msg();
 
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_item, container, false);
+         view = inflater.inflate(R.layout.fragment_item, container, false);
 
         NmeaListAdapter myAdapter = new NmeaListAdapter(this.getContext(), ((MainActivity)this.getActivity()).nmeaItems);
         ((MainActivity)this.getActivity()).adapter = myAdapter;
