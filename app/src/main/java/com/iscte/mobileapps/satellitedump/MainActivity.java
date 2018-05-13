@@ -159,12 +159,16 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     protected void showDump(){
+        gettingNMEA=true;
         fragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, fragDump)
                 .commit();
     }
 
     protected void showList(){
+
+        gettingNMEA=false;
+
         fragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, fragList)
                 .commit();

@@ -8,10 +8,11 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class NmeaListAdapter extends BaseAdapter {
-    private static ArrayList<NmeaItem> nmeaArrayList;
-    private static ArrayList<NmeaItem> newNmeaArrayList;
+    public static ArrayList<NmeaItem> nmeaArrayList;
+    public static ArrayList<NmeaItem> newNmeaArrayList;
 
     private LayoutInflater mInflater;
 
@@ -19,7 +20,11 @@ public class NmeaListAdapter extends BaseAdapter {
     {
         nmeaArrayList = message;
         mInflater = LayoutInflater.from(context);
+
+        newArray();
     }
+
+
 
     @Override
     public int getCount() {
@@ -60,6 +65,18 @@ public class NmeaListAdapter extends BaseAdapter {
     {
         TextView txtname;
         TextView txtTelephone;
+    }
+
+    public void newArray(){
+
+
+
+
+        HashSet<NmeaItem> hashSet = new HashSet<NmeaItem>();
+        hashSet.addAll(nmeaArrayList);
+        nmeaArrayList.clear();
+        nmeaArrayList.addAll(hashSet);
+
     }
 
 }

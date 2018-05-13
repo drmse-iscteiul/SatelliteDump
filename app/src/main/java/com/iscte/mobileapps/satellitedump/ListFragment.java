@@ -66,7 +66,7 @@ public class ListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
          view = inflater.inflate(R.layout.fragment_item, container, false);
 
-        NmeaListAdapter myAdapter = new NmeaListAdapter(this.getContext(), ((MainActivity)this.getActivity()).nmeaItems);
+        NmeaListAdapter myAdapter = new NmeaListAdapter(this.getContext(), ((MainActivity)this.getActivity()).nmeaItems );
         ((MainActivity)this.getActivity()).adapter = myAdapter;
         ((ListView)view.findViewById(R.id.listView)).setAdapter(myAdapter);
 
