@@ -22,35 +22,54 @@ public class NmeaHandler {
 
         } else if(msg.contains("GPGSA")) {
 
-
+            //msg_params = decodeGPGSA(msg);
+            
         } else if(msg.contains("GPGSV")) {
 
+            //msg_params = decodeGPGSV(msg);
 
         } else if(msg.contains("GPRMC")) {
 
+            //msg_params = decodeGPRMC(msg);
 
         } else if(msg.contains("GPVTG")) {
+
+            //msg_params = decodeGPVTG(msg);
 
 
         } else if(msg.contains("GLGSV")) {
 
+            //msg_params = decodeGLGSV(msg);
+
 
         } else if(msg.contains("PGLOR")) {
+
+            //msg_params = decodePGLOR(msg);
 
 
         } else if(msg.contains("BDGSA")) {
 
+            //msg_params = decodeBDGSA(msg);
+
 
         } else if(msg.contains("BDGSV")) {
+
+            //msg_params = decodeBDGSV(msg);
 
 
         } else if(msg.contains("IMGSA")) {
 
+            //msg_params = decodeIMGSA(msg);
+
 
         } else if(msg.contains("QZGSA")) {
 
+            //msg_params = decodeQZGSA(msg);
+
 
         } else if(msg.contains("GNGSA")) {
+
+            //msg_params = decodeGNGSA(msg);
 
 
         }
@@ -90,7 +109,7 @@ public class NmeaHandler {
 
          */
 
-        HashMap h = new HashMap();
+        HashMap<String, String> h = new HashMap<String, String>();
 
         String[] msg_parts = msg.split(",");
 
