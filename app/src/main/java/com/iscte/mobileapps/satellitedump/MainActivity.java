@@ -2,6 +2,7 @@ package com.iscte.mobileapps.satellitedump;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
@@ -18,6 +19,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -82,6 +86,10 @@ public class MainActivity extends AppCompatActivity implements
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        ListView list = (ListView) findViewById(R.id.listView);
+
+
 
         showDump();
 
@@ -233,7 +241,6 @@ public class MainActivity extends AppCompatActivity implements
                 Log.d(TAG,provider + " status: AVAILABLE");
                 break;
         }
-
     }
 
     @Override
@@ -244,12 +251,15 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onProviderDisabled(String provider) {
         Log.d(TAG,"Provider Disabled: " + provider);
-
     }
+
 
     @Override
     public void onListFragmentInteraction(NmeaItem item) {
-        Log.d(TAG,"touch the list ->>> " + item);
+
+        Log.d(TAG,"CARALHO-------------------------------------------------" );
+
     }
+
 }
 

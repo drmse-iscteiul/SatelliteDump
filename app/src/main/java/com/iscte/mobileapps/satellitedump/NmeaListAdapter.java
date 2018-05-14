@@ -13,7 +13,7 @@ import java.util.HashSet;
 public class NmeaListAdapter extends BaseAdapter {
     public static ArrayList<NmeaItem> nmeaArrayList;
     public static ArrayList<NmeaItem> newNmeaArrayList;
-
+    private ViewHolder holder;
     private LayoutInflater mInflater;
 
     public NmeaListAdapter(Context context, ArrayList<NmeaItem> message)
@@ -42,9 +42,8 @@ public class NmeaListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
-        if(convertView==null)
-        {
+
+        if(convertView==null){
             convertView = mInflater.inflate(R.layout.custom_row, null);
             holder = new ViewHolder();
             holder.txtname = (TextView) convertView.findViewById(R.id.name);
@@ -56,15 +55,13 @@ public class NmeaListAdapter extends BaseAdapter {
 
         holder.txtname.setText(nmeaArrayList.get(position).getName());
         holder.txtTelephone.setText(nmeaArrayList.get(position).getTelephone());
+
         return convertView;
     }
-
 
     static class ViewHolder
     {
         TextView txtname;
         TextView txtTelephone;
     }
-
-
 }
