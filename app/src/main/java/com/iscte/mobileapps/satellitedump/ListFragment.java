@@ -37,8 +37,7 @@ public class ListFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ListFragment() {
-    }
+    public ListFragment() { }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
@@ -65,11 +64,9 @@ public class ListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
          view = inflater.inflate(R.layout.fragment_item, container, false);
-
         NmeaListAdapter myAdapter = new NmeaListAdapter(this.getContext(), ((MainActivity)this.getActivity()).nmeaItems );
         ((MainActivity)this.getActivity()).adapter = myAdapter;
         ((ListView)view.findViewById(R.id.listView)).setAdapter(myAdapter);
-
         return view;
     }
 

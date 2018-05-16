@@ -135,10 +135,6 @@ public class MainActivity extends AppCompatActivity implements
 
     protected  void processToHistory(String newMessage){
 
-        Log.d(TAG,newMessage);
-
-        if(adapter != null){
-
             int rem = -1;
 
             for(int i = 0 ; i < nmeaHistory.size(); i++){
@@ -159,7 +155,8 @@ public class MainActivity extends AppCompatActivity implements
                 String formatted = format.format(date);
                 item.setTelephone(formatted);
                 nmeaItems.add(item);
-                adapter.notifyDataSetChanged();
+                if(adapter != null)
+                 adapter.notifyDataSetChanged();
 
             }else{ // not the first
 
@@ -167,8 +164,6 @@ public class MainActivity extends AppCompatActivity implements
                 nmeaHistory.add(newMessage);
 
             }
-
-        }
     }
 
     public ArrayList<NmeaItem> getNmeaItems() {
