@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements
         showDump();
 
         //etLat = (EditText) findViewById(R.id.etLat);
-       // etLgt = (EditText) findViewById(R.id.etLgt);
+        // etLgt = (EditText) findViewById(R.id.etLgt);
 
         locationSetup();
 
@@ -115,10 +115,10 @@ public class MainActivity extends AppCompatActivity implements
                 @Override
                 public void onNmeaReceived(long timestamp, String s) {
                     if(etNmea != null && gettingNMEA) {
-                       /* GPGGA,GPGSA,GPGSV,GPRMC,GPVTG,GLGSV,PGLOR,BDGSA,BDGSV,IMGSA,QZGSA,GNGSA */
-                            history = s + "\n" + history;
-                            etNmea.setText(history);
-                            processToHistory(s);
+                        /* GPGGA,GPGSA,GPGSV,GPRMC,GPVTG,GLGSV,PGLOR,BDGSA,BDGSV,IMGSA,QZGSA,GNGSA */
+                        history = s + "\n" + history;
+                        etNmea.setText(history);
+                        processToHistory(s);
 
                     }
                 }
@@ -135,36 +135,36 @@ public class MainActivity extends AppCompatActivity implements
 
     protected  void processToHistory(String newMessage){
 
-            int rem = -1;
+        int rem = -1;
 
-            for(int i = 0 ; i < nmeaHistory.size(); i++){
-                if(nmeaHistory.get(i).substring(0,6).equals(newMessage.substring(0,6))) {
-                    rem = i;
-                    break;
-                }
+        for(int i = 0 ; i < nmeaHistory.size(); i++){
+            if(nmeaHistory.get(i).substring(0,6).equals(newMessage.substring(0,6))) {
+                rem = i;
+                break;
             }
-            if(rem == -1) { // mean it is the first from its type
+        }
+        if(rem == -1) { // mean it is the first from its type
 
-                nmeaHistory.add(newMessage);
-                String messageName= nmeaHistory.get(nmeaHistory.size()-1).substring(0,6);
+            nmeaHistory.add(newMessage);
+            String messageName= nmeaHistory.get(nmeaHistory.size()-1).substring(0,6);
 
-                NmeaItem item = new NmeaItem();
-                item.setName(messageName);
-                DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                Date date = new Date(System.currentTimeMillis());
-                String formatted = format.format(date);
-                item.setTelephone(formatted);
-                nmeaItems.add(item);
-                if(adapter != null)
-                 adapter.notifyDataSetChanged();
+            NmeaItem item = new NmeaItem();
+            item.setName(messageName);
+            DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            Date date = new Date(System.currentTimeMillis());
+            String formatted = format.format(date);
+            item.setTelephone(formatted);
+            nmeaItems.add(item);
+            if(adapter != null)
+                adapter.notifyDataSetChanged();
 
-            }else{ // not the first
+        }else{ // not the first
 
-                nmeaHistory.remove(rem);
-                nmeaHistory.add(newMessage);
+            nmeaHistory.remove(rem);
+            nmeaHistory.add(newMessage);
 
-            }
-    }
+        }
+}
 
     public ArrayList<NmeaItem> getNmeaItems() {
         return nmeaItems;
@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements
         Date date = new Date(loc.getTime());
         String formatted = format.format(date);
         Log.d(TAG, "loc changed- lat: "+ loc.getLatitude() + ", long: " +  loc.getLongitude() + ", alt: " + loc.getAltitude() + ", local time: " + formatted);
-        }
+    }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
