@@ -31,13 +31,19 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 public class DashFragment extends Fragment implements OnMapReadyCallback {
 
     GoogleMap map;
     MapView mapView;
     View view;
-
+    public Double lat;
+    public Double log;
+    public Double alt;
 
     private OnFragmentInteractionListener mListener;
 
@@ -99,14 +105,17 @@ public class DashFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(getContext());
         map = googleMap;
-
-
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        
 
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(38.748753, -9.153692)).title("ISCTE-IUL").snippet("Come visit us!"));
+        lat=((MainActivity) getActivity()).getLat();
+        log=((MainActivity) getActivity()).getLog();
+        alt=((MainActivity) getActivity()).getAlt();
 
-        CameraPosition iscte = CameraPosition.builder().target(new LatLng(38.748753, -9.153692)).zoom(16).bearing(0).tilt(45).build();
+
+      //  googleMap.addMarker(new MarkerOptions().position(new LatLng(lat, log)).title("ISCTE-IUL").snippet("Come visit us!"));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(((MainActivity) getActivity()).getLat(), ((MainActivity) getActivity()).getLog())).title("Hello world"));
+
+        CameraPosition iscte = CameraPosition.builder().target(new LatLng(lat, log)).zoom(16).bearing(0).tilt(45).build();
 
         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(iscte));
 

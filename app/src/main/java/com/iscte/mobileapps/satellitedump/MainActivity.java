@@ -55,6 +55,9 @@ public class MainActivity extends AppCompatActivity implements
     private ArrayList<String> nmeaHistory = new ArrayList<String>();
     public ArrayList<NmeaItem> nmeaItems = new ArrayList<NmeaItem>();
     public NmeaListAdapter adapter;
+    public Double lat;
+    public Double log;
+    public Double alt;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -93,8 +96,6 @@ public class MainActivity extends AppCompatActivity implements
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         ListView list = (ListView) findViewById(R.id.listView);
-
-
 
         showDump();
 
@@ -144,7 +145,6 @@ public class MainActivity extends AppCompatActivity implements
                     .build());
         }
     }
-
 
     protected  void processToHistory(String newMessage){
 
@@ -226,6 +226,23 @@ public class MainActivity extends AppCompatActivity implements
         Date date = new Date(loc.getTime());
         String formatted = format.format(date);
         Log.d(TAG, "loc changed- lat: "+ loc.getLatitude() + ", long: " +  loc.getLongitude() + ", alt: " + loc.getAltitude() + ", local time: " + formatted);
+
+            lat=loc.getLatitude();
+            log=loc.getLongitude();
+            alt=loc.getAltitude();
+
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public Double getLog() {
+        return log;
+    }
+
+    public Double getAlt() {
+        return alt;
     }
 
     @Override
