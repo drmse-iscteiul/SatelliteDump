@@ -22,9 +22,6 @@ public class NmeaListAdapter extends BaseAdapter {
         mInflater = LayoutInflater.from(context);
 
     }
-
-
-
     @Override
     public int getCount() {
         return nmeaArrayList.size();
