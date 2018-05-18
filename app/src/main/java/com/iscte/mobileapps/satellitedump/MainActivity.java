@@ -18,6 +18,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,6 +29,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -51,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements
     protected String history = "";
     public  TextView etLat, etLgt, etNmea;
     private static final String TAG = "TESTING_LOG";
+    private static final String TAG_TOUCH = "PENIS";
     public boolean gettingNMEA = true;
     private ArrayList<String> nmeaHistory = new ArrayList<String>();
     public ArrayList<NmeaItem> nmeaItems = new ArrayList<NmeaItem>();
@@ -130,6 +135,16 @@ public class MainActivity extends AppCompatActivity implements
                 public void onNmeaReceived(long timestamp, String s) {
                     if(etNmea != null && gettingNMEA) {
                         /* GPGGA,GPGSA,GPGSV,GPRMC,GPVTG,GLGSV,PGLOR,BDGSA,BDGSV,IMGSA,QZGSA,GNGSA */
+
+                        if(s.contains("GPGSA")){
+                            NmeaHandler nmeahand = new NmeaHandler();
+                            Log.d(TAG,s);
+                            LinkedHashMap<String, String> hmap = nmeahand.decodeMessage(s);
+                            for(Map.Entry<String, String> pair: hmap.entrySet()){
+                                Log.d(TAG, pair.getKey() + ": " + pair.getValue());
+                            }
+                        }
+
                         history = s + "\n" + history;
                         etNmea.setText(history);
                         processToHistory(s);
@@ -273,9 +288,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onListFragmentInteraction(NmeaItem item) {
-
-        Log.d(TAG,"CARALHO-------------------------------------------------" );
-
+        Log.d(TAG_TOUCH,"touch the list ->>> " + item.getMessage());
     }
 
 }

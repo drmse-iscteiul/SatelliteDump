@@ -11,8 +11,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -63,10 +65,20 @@ public class ListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-         view = inflater.inflate(R.layout.fragment_item, container, false);
+        view = inflater.inflate(R.layout.fragment_item, container, false);
         NmeaListAdapter myAdapter = new NmeaListAdapter(this.getContext(), ((MainActivity)this.getActivity()).nmeaItems );
         ((MainActivity)this.getActivity()).adapter = myAdapter;
-        ((ListView)view.findViewById(R.id.listView)).setAdapter(myAdapter);
+        final ListView listViewTreta = ((ListView)view.findViewById(R.id.listView));
+        listViewTreta.setAdapter(myAdapter);
+        listViewTreta.setClickable(true);
+        listViewTreta.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Object o = listViewTreta.getItemAtPosition(position);
+                NmeaItem str = (NmeaItem) o; //As you are using Default String Adapter
+                Toast.makeText(getActivity().getBaseContext(),str.getName(),Toast.LENGTH_SHORT).show();
+            }
+        });
         return view;
     }
 
