@@ -1,6 +1,7 @@
 package com.iscte.mobileapps.satellitedump;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.design.widget.BottomNavigationView;
@@ -65,7 +66,11 @@ public class ListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+
         view = inflater.inflate(R.layout.fragment_item, container, false);
+
+        final String history = ((MainActivity) getActivity()).history;
+
         NmeaListAdapter myAdapter = new NmeaListAdapter(this.getContext(), ((MainActivity)this.getActivity()).nmeaItems );
         ((MainActivity)this.getActivity()).adapter = myAdapter;
         final ListView listViewTreta = ((ListView)view.findViewById(R.id.listView));
@@ -77,6 +82,20 @@ public class ListFragment extends Fragment {
                 Object o = listViewTreta.getItemAtPosition(position);
                 NmeaItem str = (NmeaItem) o; //As you are using Default String Adapter
                 Toast.makeText(getActivity().getBaseContext(),str.getName(),Toast.LENGTH_SHORT).show();
+
+                String message = getHistoryLastMessageFromType(str.getName(), history);
+                if(message != null) {
+                    //Toast.makeText(getActivity().getBaseContext(), message, Toast.LENGTH_SHORT).show();
+
+                    Intent intentBundle = new Intent(getActivity().getApplicationContext(), MessageDetailsActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("message", message);
+                    intentBundle.putExtras(bundle);
+                    startActivity(intentBundle);
+
+                } else {
+                    Toast.makeText(getActivity().getBaseContext(), "Nenhuma mensagem do tipo " + str.getName() + " recebida! :(", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return view;
@@ -119,5 +138,18 @@ public class ListFragment extends Fragment {
       //  nmeaArrayList=((MainActivity) getActivity()).getNmeaItems();
 
 
+    }
+
+    private String getHistoryLastMessageFromType(String message, String history){
+
+        String[] lines = history.split("\\r?\\n");
+
+        for(String s: lines){
+            if(s.contains(message)){
+                return s.trim();
+            }
+        }
+
+        return null;
     }
 }

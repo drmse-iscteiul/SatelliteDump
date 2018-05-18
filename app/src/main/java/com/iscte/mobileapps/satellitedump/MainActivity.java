@@ -74,12 +74,9 @@ public class MainActivity extends AppCompatActivity implements
                     showDump();
                     return true;
                 case R.id.navigation_list:
-
-
-                   showList();
+                    showList();
                     return true;
                 case R.id.navigation_dashboard:
-
                   //  Intent myIntent = new Intent(MainActivity.this, MapActivity.class);
                   //  startActivityForResult(myIntent, 0);
                     showDash();

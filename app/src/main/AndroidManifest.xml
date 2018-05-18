@@ -33,7 +33,8 @@
             android:value="AIzaSyCJB9Yjvtoqf_igtiX9HfUf7tU0WDGJRvE" />
 
         <activity android:name=".DetailActivity" />
-        <activity android:name=".MapActivity"></activity>
+        <activity android:name=".MapActivity" />
+        <activity android:name=".MessageDetailsActivity"></activity>
     </application>
 
 </manifest>
