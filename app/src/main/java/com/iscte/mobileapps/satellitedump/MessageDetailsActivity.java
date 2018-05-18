@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -38,19 +39,25 @@ public class MessageDetailsActivity extends AppCompatActivity {
             NmeaHandler nmeaHandler = new NmeaHandler();
             msg_params = nmeaHandler.decodeMessage(message);
 
-            TableLayout table = (TableLayout) this.findViewById(R.id.table_layout);
+            LinearLayout table = (LinearLayout) this.findViewById(R.id.table_layout);
 
             for(Map.Entry<String, String> pair: msg_params.entrySet()){
 
-                // Inflate your row "template" and fill out the fields.
-                TableRow row = (TableRow) LayoutInflater.from(this).inflate(R.layout.attrib_row, null);
-                ((TextView)row.findViewById(R.id.attrib_name)).setText(pair.getKey());
+                LinearLayout row = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.attrib_row, null);
+                ((TextView)row.findViewById(R.id.attrib_name)).setText(pair.getKey()+ ": ");
                 ((TextView)row.findViewById(R.id.attrib_value)).setText(pair.getValue());
                 table.addView(row);
+
+                // Inflate your row "template" and fill out the fields.
+                //TableRow row = (TableRow) LayoutInflater.from(this).inflate(R.layout.attrib_row, null);
+                //((TextView)row.findViewById(R.id.attrib_name)).setText(pair.getKey()+ ": ");
+                //((TextView)row.findViewById(R.id.attrib_value)).setText(pair.getValue());
+                //table.addView(row);
 
 
                 Log.d("CARALHOOOOO", pair.getKey() + ": " + pair.getValue());
             }
+            //table.requestLayout();     // Not sure if this is needed.
 
 
         }
