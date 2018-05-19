@@ -16,12 +16,15 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class DumpFragment extends Fragment{
+public class DumpFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private Button startStop;
     private Button btnClean;
@@ -44,7 +47,7 @@ public class DumpFragment extends Fragment{
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_dump, container, false);
 
@@ -58,10 +61,10 @@ public class DumpFragment extends Fragment{
 
         startStop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(startStop.getText().equals("Start")) {
+                if (startStop.getText().equals("Start")) {
                     ((MainActivity) getActivity()).gettingNMEA = true;
                     startStop.setText("Stop");
-                }else{
+                } else {
                     ((MainActivity) getActivity()).gettingNMEA = false;
                     startStop.setText("Start");
                 }
@@ -79,7 +82,8 @@ public class DumpFragment extends Fragment{
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                     generateFile(getContext(), "file", "cenas");
+                generateFile(getContext(), "file", "cenas");
+                //writeToSDFile();
             }
         });
 
@@ -88,24 +92,24 @@ public class DumpFragment extends Fragment{
     }
 
 
-    public void generateFile(Context context, String sFileName, String sBody) {
-        try {
-            File root = new File(Environment.getExternalStorageDirectory(), "Notes");
-            if (!root.exists()) {
-                root.mkdirs();
-            }
-            File gpxfile = new File(root, sFileName);
+    public void generateFile(Context mcoContext,String sFileName, String sBody){
+        File file = new File(mcoContext.getFilesDir(),"mydir");
+        if(!file.exists()){
+            file.mkdir();
+        }
+
+        try{
+            File gpxfile = new File(file, sFileName);
             FileWriter writer = new FileWriter(gpxfile);
             writer.append(sBody);
             writer.flush();
             writer.close();
-            Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show();
-        } catch (IOException e) {
+            Toast.makeText(mcoContext, "Saved", Toast.LENGTH_SHORT).show();
+        }catch (Exception e){
             e.printStackTrace();
+
         }
     }
-
-
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
