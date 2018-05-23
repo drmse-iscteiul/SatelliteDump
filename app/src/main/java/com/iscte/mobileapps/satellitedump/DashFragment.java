@@ -33,6 +33,7 @@ import com.google.android.gms.tasks.Task;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -103,21 +104,64 @@ public class DashFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         MapsInitializer.initialize(getContext());
         map = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
-        lat=((MainActivity) getActivity()).getLat();
-        log=((MainActivity) getActivity()).getLog();
-        alt=((MainActivity) getActivity()).getAlt();
+       // lat=((MainActivity) getActivity()).getLat();
+       // log=((MainActivity) getActivity()).getLog();
+       // alt=((MainActivity) getActivity()).getAlt();
 
 
       //  googleMap.addMarker(new MarkerOptions().position(new LatLng(lat, log)).title("ISCTE-IUL").snippet("Come visit us!"));
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(((MainActivity) getActivity()).getLat(), ((MainActivity) getActivity()).getLog())).title("Hello world"));
 
-        CameraPosition iscte = CameraPosition.builder().target(new LatLng(lat, log)).zoom(16).bearing(0).tilt(45).build();
+        NmeaHandler nmeaHandler = new NmeaHandler();
+        CoordinatesCalculator cc= new CoordinatesCalculator();
+        ArrayList<String> nmeaHistoryDash = ((MainActivity) getActivity()).allMessages;
+        int earthRadius = 6371;
 
-        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(iscte));
+        for(int i = 0 ; i < nmeaHistoryDash.size(); i++){
+            switch (nmeaHistoryDash.get(i).substring(0,6)) {
+                case "$GPGSV":
+                    double azimuth = 0.0;
+                    double elevation = 0.0;
+                    if((nmeaHandler.decodeMessage(nmeaHistoryDash.get(i)).get("Azimuth (2)") != null))
+                        azimuth = Double.valueOf(nmeaHandler.decodeMessage(nmeaHistoryDash.get(i)).get("Azimuth (2)").split(" degrees")[0]);
+                    if((nmeaHandler.decodeMessage(nmeaHistoryDash.get(i)).get("Elevation (2)")!=null))
+                        elevation = Double.valueOf(nmeaHandler.decodeMessage(nmeaHistoryDash.get(i)).get("Elevation (2)").split(" degrees")[0]);
+                    double x= cc.getX(earthRadius, azimuth, elevation );
+                    double y= cc.getY(earthRadius, azimuth, elevation);
+                    double z= cc.getZ(earthRadius, azimuth);
+                    double lat= cc.latitudeCalculator(z,earthRadius);
+                    double log = cc.longitudeCalculator(y,x);
+                    googleMap.addMarker(new MarkerOptions().position(new LatLng(lat, log)).title("GPGSV 1"));
+                    CameraPosition iscte = CameraPosition.builder().target(new LatLng(lat, log)).zoom(16).bearing(0).tilt(45).build();
+                    googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(iscte));
+                    break;
+
+            }
+        }
+
+       // double x= cc.getX(6371, 67, 24 );
+       // double y= cc.getY(6371, 67, 24);
+       // double z= cc.getZ(6371, 67);
+
+        //double lat= cc.latitudeCalculator(z,6371);
+        //double log = cc.longitudeCalculator(y,x);
+
+          //googleMap.addMarker(new MarkerOptions().position(new LatLng(lat, log)).title("Hello world"));
+
+         //CameraPosition iscte = CameraPosition.builder().target(new LatLng(lat, log)).zoom(16).bearing(0).tilt(45).build();
+
+          //googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(iscte));
+
+
+
+          //A nossa localizacao
+        //   googleMap.addMarker(new MarkerOptions().position(new LatLng(((MainActivity) getActivity()).getLat(), ((MainActivity) getActivity()).getLog())).title("Hello world"));
+        //CameraPosition iscte = CameraPosition.builder().target(new LatLng(lat, log)).zoom(16).bearing(0).tilt(45).build();
+        //googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(iscte));
 
     }
 

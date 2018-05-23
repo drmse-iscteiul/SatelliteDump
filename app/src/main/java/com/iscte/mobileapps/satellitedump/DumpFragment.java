@@ -89,8 +89,6 @@ public class DumpFragment extends Fragment {
                 //writeToFile("cenas");
             }
         });
-
-
         return v;
     }
 

@@ -57,8 +57,10 @@ public class MainActivity extends AppCompatActivity implements
     private static final String TAG = "TESTING_LOG";
     private static final String TAG_TOUCH = "PENIS";
     public boolean gettingNMEA = true;
-    private ArrayList<String> nmeaHistory = new ArrayList<String>();
+    public ArrayList<String> nmeaHistory = new ArrayList<String>();
     public ArrayList<NmeaItem> nmeaItems = new ArrayList<NmeaItem>();
+    public ArrayList<String> allMessages = new ArrayList<>();
+    public ArrayList<String> cenas= new ArrayList<String>() ;
     public NmeaListAdapter adapter;
     public Double lat;
     public Double log;
@@ -142,6 +144,10 @@ public class MainActivity extends AppCompatActivity implements
                             }
                         }
 
+
+
+
+
                         history = s + "\n" + history;
                         etNmea.setText(history);
                         processToHistory(s);
@@ -160,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements
 
     protected  void processToHistory(String newMessage){
 
+        allMessages.add(newMessage);
         int rem = -1;
 
         for(int i = 0 ; i < nmeaHistory.size(); i++){
@@ -190,6 +197,31 @@ public class MainActivity extends AppCompatActivity implements
 
         }
 }
+
+   public void generateSatPosArray(){
+            int x = 0;
+            for(int i = 0 ; i < nmeaHistory.size(); i++){
+               switch (nmeaHistory.get(i).substring(0,6)) {
+                   case "GPGSV":
+
+
+
+                       cenas.add(x,nmeaHistory.get(i));
+                        x++;
+                       break;
+                   case "GLGSV":
+                       cenas.add(x,nmeaHistory.get(i));
+                       x++;
+                       break;
+                   case "BDGSV":
+                       cenas.add(x,nmeaHistory.get(i));
+                       x++;
+                       break;
+               }
+           }
+
+
+   }
 
     public ArrayList<NmeaItem> getNmeaItems() {
         return nmeaItems;
