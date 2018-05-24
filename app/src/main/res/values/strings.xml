@@ -3,6 +3,7 @@
     <string name="title_dump">Dump</string>
     <string name="title_list">List</string>
     <string name="title_dashboard">Dashboard</string>
+    <string name="title_satelites_map">Satellites</string>
     <string name="title_help">Help</string>
 
     <string name="text_dump">No Readings...</string>
