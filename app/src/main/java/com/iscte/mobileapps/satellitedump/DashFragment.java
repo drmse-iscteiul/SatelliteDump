@@ -140,6 +140,7 @@ public class DashFragment extends Fragment implements OnMapReadyCallback {
                     googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(iscte));
                     break;
 
+
             }
         }
 
