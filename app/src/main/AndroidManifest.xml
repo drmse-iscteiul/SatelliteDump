@@ -33,7 +33,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCJB9Yjvtoqf_igtiX9HfUf7tU0WDGJRvE" />
 
-        <activity android:name=".DetailActivity" />
         <activity android:name=".MapActivity" />
         <activity android:name=".MessageDetailsActivity"></activity>
     </application>

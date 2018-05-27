@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SatelliteDump</string>
+    <string name="app_name">Nmea4U</string>
     <string name="title_dump">Dump</string>
     <string name="title_list">List</string>
     <string name="title_dashboard">Dashboard</string>
