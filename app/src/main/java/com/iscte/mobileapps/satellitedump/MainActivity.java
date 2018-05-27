@@ -134,24 +134,20 @@ public class MainActivity extends AppCompatActivity implements
                 public void onNmeaReceived(long timestamp, String s) {
                     if(etNmea != null && gettingNMEA) {
                         /* GPGGA,GPGSA,GPGSV,GPRMC,GPVTG,GLGSV,PGLOR,BDGSA,BDGSV,IMGSA,QZGSA,GNGSA */
-
-                        if(s.contains("GPGSA")){
+                        /*if(s.contains("GPGSA")){
                             NmeaHandler nmeahand = new NmeaHandler();
                             Log.d(TAG,s);
                             LinkedHashMap<String, String> hmap = nmeahand.decodeMessage(s);
                             for(Map.Entry<String, String> pair: hmap.entrySet()){
                                 Log.d(TAG, pair.getKey() + ": " + pair.getValue());
                             }
+                        }*/
+
+                        if(!s.contains("PGLOR") && !s.contains("IMGSA") ) {    // Vamos esconder estas porque não funcionam
+                             history = s + "\n" + history;
+                            etNmea.setText(history);
+                            processToHistory(s);
                         }
-
-
-
-
-
-                        history = s + "\n" + history;
-                        etNmea.setText(history);
-                        processToHistory(s);
-
                     }
                 }
             });

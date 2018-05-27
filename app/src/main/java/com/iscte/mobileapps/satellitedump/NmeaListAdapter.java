@@ -50,7 +50,28 @@ public class NmeaListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.txtname.setText(nmeaArrayList.get(position).getName());
+        if(nmeaArrayList.get(position).getName().equals("$GPGGA")){
+            holder.txtname.setText(nmeaArrayList.get(position).getName() + " - Global Positioning System Fix Data");
+        } else if(nmeaArrayList.get(position).getName().equals("$GPGSV")) {
+            holder.txtname.setText(nmeaArrayList.get(position).getName() + " - GPS Satellites in view");
+        } else if(nmeaArrayList.get(position).getName().equals("$GLGSV")) {
+            holder.txtname.setText(nmeaArrayList.get(position).getName() + " - GLONASS Satellites in view");
+        } else if(nmeaArrayList.get(position).getName().equals("$BDGSV")) {
+            holder.txtname.setText(nmeaArrayList.get(position).getName() + " - BeiDou Satellites in view");
+        } else if(nmeaArrayList.get(position).getName().equals("$GPGSA")) {
+            holder.txtname.setText(nmeaArrayList.get(position).getName() + " - GPS Dilution of precision and active satellites");
+        } else if(nmeaArrayList.get(position).getName().equals("$GNGSA")) {
+            holder.txtname.setText(nmeaArrayList.get(position).getName() + " - Dilution of precision and active satellites (Global Navigation Satellite System or GLONASS)");
+        } else if(nmeaArrayList.get(position).getName().equals("$QZGSA")) {
+            holder.txtname.setText(nmeaArrayList.get(position).getName() + " - Dilution of precision and active satellites (Quasi-Zenith Satellite System (QZSS))");
+        } else if(nmeaArrayList.get(position).getName().equals("$BDGSA")) {
+            holder.txtname.setText(nmeaArrayList.get(position).getName() + " - Dilution of precision and active satellites (BeiDou Navigation Satellite System)");
+        } else if(nmeaArrayList.get(position).getName().equals("$GPRMC")) {
+            holder.txtname.setText(nmeaArrayList.get(position).getName() + " - Recommended minimum specific GPS/Transit data");
+        } else {
+            holder.txtname.setText(nmeaArrayList.get(position).getName());
+        }
+        //holder.txtname.setText(nmeaArrayList.get(position).getName());
         holder.txtTelephone.setText(nmeaArrayList.get(position).getTelephone());
 
         return convertView;
