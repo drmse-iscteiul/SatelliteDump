@@ -101,6 +101,8 @@ public class MainActivity extends AppCompatActivity implements
 
         ListView list = (ListView) findViewById(R.id.listView);
 
+        SateliteLocator cl= new SateliteLocator();
+
         showDump();
 
         //etLat = (EditText) findViewById(R.id.etLat);
