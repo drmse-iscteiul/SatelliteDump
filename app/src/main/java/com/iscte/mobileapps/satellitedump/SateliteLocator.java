@@ -74,6 +74,9 @@ public class SateliteLocator {
  }
 
     public static String getTLE(){
+
+
+
         InputStream inputStream = null;
         String result = "";
         try {
@@ -82,8 +85,11 @@ public class SateliteLocator {
             HttpClient httpclient = new DefaultHttpClient();
 
             // make GET request to the given URL
-
-            HttpResponse httpResponse = httpclient.execute(new HttpGet("https://www.n2yo.com/rest/v1/satellite/positions/25544/41.702/-76.014/0/2/&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF"));
+            //TLE https://www.n2yo.com/rest/v1/satellite/tle/25544&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF
+            //POSITION https://www.n2yo.com/rest/v1/satellite/positions/25544/41.702/-76.014/0/2/&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF
+            //virtual passes http://www.n2yo.com/rest/v1/satellite/visualpasses/25544/41.702/-76.014/0/2/300/&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF
+            // radio passes https://www.n2yo.com/rest/v1/satellite/radiopasses/25544/41.702/-76.014/0/2/40/&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF
+            HttpResponse httpResponse = httpclient.execute(new HttpGet("https://www.n2yo.com/rest/v1/satellite/radiopasses/25544/41.702/-76.014/0/2/40/&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF"));
 
             // receive response as inputStream
             inputStream = httpResponse.getEntity().getContent();
