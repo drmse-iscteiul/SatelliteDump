@@ -40,6 +40,9 @@ public class DashFragment extends Fragment implements OnMapReadyCallback {
     public Double log;
     public Double alt;
     public ArrayList<Satellite> satelliteArrayList = new ArrayList<Satellite>();
+    public ArrayList<Satellite> satelliteArrayListBd = new ArrayList<Satellite>();
+    public ArrayList<Satellite> satelliteArrayListGleo = new ArrayList<Satellite>();
+    public ArrayList<Satellite> satelliteArrayListGlona = new ArrayList<Satellite>();
 
     private OnFragmentInteractionListener mListener;
 
@@ -112,10 +115,20 @@ public class DashFragment extends Fragment implements OnMapReadyCallback {
        alt=((MainActivity) getActivity()).getAlt();
 
         for(Satellite s: satelliteArrayList){
-            googleMap.addMarker(new MarkerOptions().position(new LatLng(Double.valueOf(s.getSatlat()), Double.valueOf(s.getSatlng()))).title(s.getSatid() + "-" + s.getSatname()).icon(BitmapDescriptorFactory.fromResource(R.drawable.sat_marker)));
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(Double.valueOf(s.getSatlat()), Double.valueOf(s.getSatlng()))).title(s.getSatname()).icon(BitmapDescriptorFactory.fromResource(R.drawable.sat_marker)));
+        }
+        for(Satellite s: satelliteArrayListBd){
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(Double.valueOf(s.getSatlat()), Double.valueOf(s.getSatlng()))).title(s.getSatname()).icon(BitmapDescriptorFactory.fromResource(R.drawable.sat_marker)));
+        }
+        for(Satellite s: satelliteArrayListGleo){
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(Double.valueOf(s.getSatlat()), Double.valueOf(s.getSatlng()))).title(s.getSatname()).icon(BitmapDescriptorFactory.fromResource(R.drawable.sat_marker)));
+        }
+        for(Satellite s: satelliteArrayListGlona){
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(Double.valueOf(s.getSatlat()), Double.valueOf(s.getSatlng()))).title(s.getSatname()).icon(BitmapDescriptorFactory.fromResource(R.drawable.sat_marker)));
         }
 
-        CameraPosition our_pos = CameraPosition.builder().target(new LatLng(lat, log)).zoom(5).bearing(0).build();
+
+        CameraPosition our_pos = CameraPosition.builder().target(new LatLng(lat, log)).zoom(3).bearing(0).build();
         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(our_pos));
 
     }
@@ -139,9 +152,28 @@ public class DashFragment extends Fragment implements OnMapReadyCallback {
         double user_log =((MainActivity) getActivity()).getLog();
         double user_alt =((MainActivity) getActivity()).getAlt();
 
+        /*
+
+            **** ID's ****
+
+            GPS = 20
+            BeiDou = 35
+            Galileo - 22
+            Glonass - 21
+
+
+         */
+
         //static final String URL_STRING_STATIC = "https://www.n2yo.com/rest/v1/satellite/above/38.746/-9.151/105/45/20/&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF";
-        final String URL_STRING = "https://www.n2yo.com/rest/v1/satellite/above/" + user_lat + "/" + user_log + "/" + user_alt +"/90/20/&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF";
+        final String URL_STRING = "https://www.n2yo.com/rest/v1/satellite/above/" + user_lat + "/" + user_log + "/" + user_alt +"/65/20/&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF";
+        final String URL_STRING_BEIDOU = "https://www.n2yo.com/rest/v1/satellite/above/" + user_lat + "/" + user_log + "/" + user_alt +"/45/35/&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF";
+        final String URL_STRING_GALILEO = "https://www.n2yo.com/rest/v1/satellite/above/" + user_lat + "/" + user_log + "/" + user_alt +"/45/22/&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF";
+        final String URL_STRING_GLONASS = "https://www.n2yo.com/rest/v1/satellite/above/" + user_lat + "/" + user_log + "/" + user_alt +"/15/21/&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF";
+
         String response;
+        String response_beidou;
+        String response_galileo;
+        String response_glonass;
 
         @Override
         protected void onPreExecute() {
@@ -160,6 +192,9 @@ public class DashFragment extends Fragment implements OnMapReadyCallback {
             creatingURLConnection is a function use to establish connection
             */
             response = creatingURLConnection(URL_STRING);
+            response_beidou = creatingURLConnection(URL_STRING_BEIDOU);
+            response_galileo = creatingURLConnection(URL_STRING_GALILEO);
+            response_glonass = creatingURLConnection(URL_STRING_GLONASS);
             return null;
         }
 
@@ -175,7 +210,13 @@ public class DashFragment extends Fragment implements OnMapReadyCallback {
                     converting JSON response string into JSONArray
                     */
                     JSONObject jObject = new JSONObject(response);
+                    JSONObject jObjectBd = new JSONObject(response_beidou);
+                    JSONObject jObjectGleo = new JSONObject(response_galileo);
+                    JSONObject jObjectGlona = new JSONObject(response_glonass);
                     JSONArray responseArray = jObject.getJSONArray("above");
+                    JSONArray responseArrayBd = jObjectBd.getJSONArray("above");
+                    JSONArray responseArrayGleo = jObjectGleo.getJSONArray("above");
+                    JSONArray responseArrayGlona = jObjectGlona.getJSONArray("above");
                     if(responseArray.length()>0){
                         /*
                         Iterating JSON object from JSON Array one by one
@@ -193,9 +234,64 @@ public class DashFragment extends Fragment implements OnMapReadyCallback {
                             sat.setSatalt(satelliteObj.optString("satalt"));
 
                             satelliteArrayList.add(sat);
-
                         }
+                    }
+                    if(responseArrayBd.length()>0){
+                        /*
+                        Iterating JSON object from JSON Array one by one
+                        */
+                        for(int i=0;i<responseArrayBd.length();i++){
+                            JSONObject satelliteObj = responseArrayBd.getJSONObject(i);
 
+                            Log.d("SATELLITE_INFO", satelliteObj.toString());
+
+                            Satellite sat = new Satellite();
+                            sat.setSatid(satelliteObj.optString("satid"));
+                            sat.setSatname(satelliteObj.optString("satname"));
+                            sat.setSatlat(satelliteObj.optString("satlat"));
+                            sat.setSatlng(satelliteObj.optString("satlng"));
+                            sat.setSatalt(satelliteObj.optString("satalt"));
+
+                            satelliteArrayListBd.add(sat);
+                        }
+                    }
+                    if(responseArrayGleo.length()>0){
+                        /*
+                        Iterating JSON object from JSON Array one by one
+                        */
+                        for(int i=0;i<responseArrayGleo.length();i++){
+                            JSONObject satelliteObj = responseArrayGleo.getJSONObject(i);
+
+                            Log.d("SATELLITE_INFO", satelliteObj.toString());
+
+                            Satellite sat = new Satellite();
+                            sat.setSatid(satelliteObj.optString("satid"));
+                            sat.setSatname(satelliteObj.optString("satname"));
+                            sat.setSatlat(satelliteObj.optString("satlat"));
+                            sat.setSatlng(satelliteObj.optString("satlng"));
+                            sat.setSatalt(satelliteObj.optString("satalt"));
+
+                            satelliteArrayListGleo.add(sat);
+                        }
+                    }
+                    if(responseArrayGlona.length()>0){
+                        /*
+                        Iterating JSON object from JSON Array one by one
+                        */
+                        for(int i=0;i<responseArrayGlona.length();i++){
+                            JSONObject satelliteObj = responseArrayGlona.getJSONObject(i);
+
+                            Log.d("SATELLITE_INFO", satelliteObj.toString());
+
+                            Satellite sat = new Satellite();
+                            sat.setSatid(satelliteObj.optString("satid"));
+                            sat.setSatname(satelliteObj.optString("satname"));
+                            sat.setSatlat(satelliteObj.optString("satlat"));
+                            sat.setSatlng(satelliteObj.optString("satlng"));
+                            sat.setSatalt(satelliteObj.optString("satalt"));
+
+                            satelliteArrayListGlona.add(sat);
+                        }
                     }
                 }else {
                     Toast.makeText(getActivity().getApplicationContext(),"Error in fetching data.",Toast.LENGTH_SHORT).show();

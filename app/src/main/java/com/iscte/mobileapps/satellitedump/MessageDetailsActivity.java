@@ -30,7 +30,7 @@ public class MessageDetailsActivity extends AppCompatActivity {
             boolean hasMessage = extrasBundle.containsKey("message");
             if(hasMessage){
                 message = extrasBundle.getString("message");
-                Toast.makeText(getApplicationContext(), "Entrei no detalhe com a mensagem: " + message, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Entrei no detalhe com a mensagem: " + message, Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -54,8 +54,6 @@ public class MessageDetailsActivity extends AppCompatActivity {
                 //((TextView)row.findViewById(R.id.attrib_value)).setText(pair.getValue());
                 //table.addView(row);
 
-
-                Log.d("CARALHOOOOO", pair.getKey() + ": " + pair.getValue());
             }
             //table.requestLayout();     // Not sure if this is needed.
 
