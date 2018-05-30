@@ -24,10 +24,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Activity;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
+//import org.apache.http.HttpResponse;
+//import org.apache.http.client.HttpClient;
+//import org.apache.http.client.methods.HttpGet;
+//import org.apache.http.impl.client.DefaultHttpClient;
 
 public class SateliteLocator {
 
@@ -82,7 +82,7 @@ public class SateliteLocator {
         try {
 
             // create HttpClient
-            HttpClient httpclient = new DefaultHttpClient();
+            //HttpClient httpclient = new DefaultHttpClient();
 
             // make GET request to the given URL
             //TLE https://www.n2yo.com/rest/v1/satellite/tle/25544&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF
@@ -91,10 +91,10 @@ public class SateliteLocator {
             // radio passes https://www.n2yo.com/rest/v1/satellite/radiopasses/25544/41.702/-76.014/0/2/40/&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF
             //whats up https://www.n2yo.com/rest/v1/satellite/above/41.702/-76.014/0/70/18/&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF
 
-            HttpResponse httpResponse = httpclient.execute(new HttpGet("https://www.n2yo.com/rest/v1/satellite/above/41.702/-76.014/0/70/18/&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF"));
+            //HttpResponse httpResponse = httpclient.execute(new HttpGet("https://www.n2yo.com/rest/v1/satellite/above/41.702/-76.014/0/70/18/&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF"));
 
             // receive response as inputStream
-            inputStream = httpResponse.getEntity().getContent();
+            //inputStream = httpResponse.getEntity().getContent();
 
             // convert inputstream to string
             if(inputStream != null)

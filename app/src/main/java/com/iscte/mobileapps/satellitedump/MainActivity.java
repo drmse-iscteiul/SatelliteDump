@@ -1,6 +1,7 @@
 package com.iscte.mobileapps.satellitedump;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.location.GpsStatus;
@@ -9,6 +10,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,7 +26,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -102,6 +111,8 @@ public class MainActivity extends AppCompatActivity implements
         ListView list = (ListView) findViewById(R.id.listView);
 
         SateliteLocator cl= new SateliteLocator();
+
+        //new FetchWarsInfo().execute();
 
         showDump();
 
@@ -316,6 +327,118 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onListFragmentInteraction(NmeaItem item) {
         Log.d(TAG_TOUCH,"touch the list ->>> " + item.getMessage());
+    }
+
+    /**
+     * Async task class to get json response by making HTTP call
+     * Async task class is used because
+     * you cannot create a network connection on main thread
+     */
+
+    public class FetchWarsInfo2 extends AsyncTask<Void, Void, Void> {
+
+        ProgressDialog progressDialog;
+        static final String URL_STRING =
+                "https://www.n2yo.com/rest/v1/satellite/above/38.746/-9.151/105/45/20/&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF";
+        String response;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(MainActivity.this);
+            progressDialog.setCancelable(false);
+            progressDialog.setMessage("Please wait. Fetching data..");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setProgress(0);
+            progressDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            /*
+            creatingURLConnection is a function use to establish connection
+            */
+            response = creatingURLConnection(URL_STRING);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            progressDialog.dismiss();
+            Toast.makeText(getApplicationContext(),
+                    "Connection successful.",Toast.LENGTH_SHORT).show();
+
+            try{
+                if(response!=null && !response.equals("")){
+                    /*
+                    converting JSON response string into JSONArray
+                    */
+
+                    JSONObject jObject = new JSONObject(response);
+                    JSONArray responseArray = jObject.getJSONArray("above");;
+                    if(responseArray.length()>0){
+                        /*
+                        Iterating JSON object from JSON Array one by one
+                        */
+                        for(int i=0;i<responseArray.length();i++){
+                            JSONObject battleObj = responseArray.getJSONObject(i);
+
+                            Log.d("PILAGORDA", battleObj.toString());
+
+                            //creating object of model class(ModelWarDetails)
+                            //ModelWarDetails modelWarDetails = new ModelWarDetails();
+                            /*
+                            fetching data based on key from JSON and setting into model class
+                            */
+                            //modelWarDetails.setName(battleObj.optString("name"));
+                            //modelWarDetails.setAttacker_king
+                            //        (battleObj.optString("attacker_king"));
+                            //modelWarDetails.setDefender_king
+                            //        (battleObj.optString("defender_king"));
+                            //modelWarDetails.setLocation(battleObj.optString("location"));
+
+                            //adding data into List
+                            //listWarDetails.add(modelWarDetails);
+
+
+
+                        }
+
+                    }
+                }else {
+                    Toast.makeText(getApplicationContext(),
+                            "Error in fetching data.",Toast.LENGTH_SHORT).show();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public String creatingURLConnection (String GET_URL) {
+        String response = "";
+        HttpURLConnection conn ;
+        StringBuilder jsonResults = new StringBuilder();
+        try {
+            //setting URL to connect with
+            URL url = new URL(GET_URL);
+            //creating connection
+            conn = (HttpURLConnection) url.openConnection();
+            /*
+            converting response into String
+            */
+            InputStreamReader in = new InputStreamReader(conn.getInputStream());
+            int read;
+            char[] buff = new char[1024];
+            while ((read = in.read(buff)) != -1) {
+                jsonResults.append(buff, 0, read);
+            }
+            response = jsonResults.toString();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return response;
     }
 
 }
