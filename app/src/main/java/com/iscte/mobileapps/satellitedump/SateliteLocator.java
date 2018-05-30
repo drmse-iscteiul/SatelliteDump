@@ -89,7 +89,9 @@ public class SateliteLocator {
             //POSITION https://www.n2yo.com/rest/v1/satellite/positions/25544/41.702/-76.014/0/2/&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF
             //virtual passes http://www.n2yo.com/rest/v1/satellite/visualpasses/25544/41.702/-76.014/0/2/300/&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF
             // radio passes https://www.n2yo.com/rest/v1/satellite/radiopasses/25544/41.702/-76.014/0/2/40/&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF
-            HttpResponse httpResponse = httpclient.execute(new HttpGet("https://www.n2yo.com/rest/v1/satellite/radiopasses/25544/41.702/-76.014/0/2/40/&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF"));
+            //whats up https://www.n2yo.com/rest/v1/satellite/above/41.702/-76.014/0/70/18/&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF
+
+            HttpResponse httpResponse = httpclient.execute(new HttpGet("https://www.n2yo.com/rest/v1/satellite/above/41.702/-76.014/0/70/18/&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF"));
 
             // receive response as inputStream
             inputStream = httpResponse.getEntity().getContent();
