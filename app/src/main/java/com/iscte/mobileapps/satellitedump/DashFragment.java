@@ -43,6 +43,7 @@ public class DashFragment extends Fragment implements OnMapReadyCallback {
     public ArrayList<Satellite> satelliteArrayListBd = new ArrayList<Satellite>();
     public ArrayList<Satellite> satelliteArrayListGleo = new ArrayList<Satellite>();
     public ArrayList<Satellite> satelliteArrayListGlona = new ArrayList<Satellite>();
+    public boolean alreadyCreatedSats = false;
 
     private OnFragmentInteractionListener mListener;
 
@@ -99,7 +100,10 @@ public class DashFragment extends Fragment implements OnMapReadyCallback {
             mapView.getMapAsync(this);
         }
 
-        new FetchWarsInfo().execute();
+        if(!alreadyCreatedSats) {
+            new FetchWarsInfo().execute();
+            alreadyCreatedSats = true;
+        }
 
     }
 
@@ -168,7 +172,7 @@ public class DashFragment extends Fragment implements OnMapReadyCallback {
         final String URL_STRING = "https://www.n2yo.com/rest/v1/satellite/above/" + user_lat + "/" + user_log + "/" + user_alt +"/65/20/&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF";
         final String URL_STRING_BEIDOU = "https://www.n2yo.com/rest/v1/satellite/above/" + user_lat + "/" + user_log + "/" + user_alt +"/45/35/&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF";
         final String URL_STRING_GALILEO = "https://www.n2yo.com/rest/v1/satellite/above/" + user_lat + "/" + user_log + "/" + user_alt +"/45/22/&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF";
-        final String URL_STRING_GLONASS = "https://www.n2yo.com/rest/v1/satellite/above/" + user_lat + "/" + user_log + "/" + user_alt +"/15/21/&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF";
+        final String URL_STRING_GLONASS = "https://www.n2yo.com/rest/v1/satellite/above/" + user_lat + "/" + user_log + "/" + user_alt +"/30/21/&apiKey=4NVUTZ-5FAJ8Y-2ZYN4A-3TMF";
 
         String response;
         String response_beidou;
@@ -213,10 +217,23 @@ public class DashFragment extends Fragment implements OnMapReadyCallback {
                     JSONObject jObjectBd = new JSONObject(response_beidou);
                     JSONObject jObjectGleo = new JSONObject(response_galileo);
                     JSONObject jObjectGlona = new JSONObject(response_glonass);
-                    JSONArray responseArray = jObject.getJSONArray("above");
-                    JSONArray responseArrayBd = jObjectBd.getJSONArray("above");
-                    JSONArray responseArrayGleo = jObjectGleo.getJSONArray("above");
-                    JSONArray responseArrayGlona = jObjectGlona.getJSONArray("above");
+
+                    JSONArray responseArray = new JSONArray();
+                    if(jObject.has("above"))
+                        responseArray = jObject.getJSONArray("above");
+
+                    JSONArray responseArrayBd = new JSONArray();
+                    if(jObjectBd.has("above"))
+                        responseArrayBd = jObjectBd.getJSONArray("above");
+
+                    JSONArray responseArrayGleo = new JSONArray();
+                    if(jObjectGleo.has("above"))
+                        responseArrayGleo = jObjectGleo.getJSONArray("above");
+
+                    JSONArray responseArrayGlona = new JSONArray();
+                    if(jObjectGlona.has("above"))
+                        responseArrayGlona = jObjectGlona.getJSONArray("above");
+
                     if(responseArray.length()>0){
                         /*
                         Iterating JSON object from JSON Array one by one
